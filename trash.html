@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout Responsif — Flexbox & Grid</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ===== TOKENS ===== */
+    :root {
+      --ink      : #0f0e0d;
+      --ink-2    : #3a3835;
+      --ink-3    : #7a7672;
+      --paper    : #faf8f4;
+      --paper-2  : #f2ede4;
+      --paper-3  : #e8e0d0;
+      --accent   : #c0392b;
+      --accent-2 : #e74c3c;
+      --gold     : #c9a84c;
+      --teal     : #1a6b6b;
+      --border   : #d4cdc0;
+      --mono     : 'DM Mono', monospace;
+      --serif    : 'Playfair Display', serif;
+      --sans     : 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background  : var(--paper);
+      color       : var(--ink);
+      font-family : var(--sans);
+      font-size   : 15px;
+      line-height : 1.65;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+    /* ===== NAV ===== */
+    .site-nav {
+      position         : sticky;
+      top              : 0;
+      z-index          : 100;
+      background       : var(--paper);
+      border-bottom    : 2px solid var(--ink);
+      display          : flex;
+      align-items      : center;
+      justify-content  : space-between;
+      padding          : 0 40px;
+      height           : 56px;
+    }
+
+    .nav-brand {
+      font-family : var(--serif);
+      font-size   : 18px;
+      color       : var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-brand span { color: var(--accent); }
+
+    .nav-links {
+      display    : flex;
+      gap        : 6px;
+      list-style : none;
+    }
+
+    .nav-links a {
+      font-size      : 12px;
+      font-weight    : 500;
+      letter-spacing : 0.06em;
+      text-transform : uppercase;
+      color          : var(--ink-3);
+      text-decoration: none;
+      padding        : 5px 10px;
+      border-radius  : 4px;
+      transition     : all 0.15s;
+    }
+
+    .nav-links a:hover {
+      color      : var(--ink);
+      background : var(--paper-2);
+    }
+
+    .mob-btn {
+      display    : none;
+      background : none;
+      border     : 1.5px solid var(--border);
+      padding    : 6px 10px;
+      cursor     : pointer;
+      border-radius: 6px;
+      font-size  : 13px;
+      color      : var(--ink);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      border-bottom : 1px solid var(--border);
+      padding       : 80px 40px 60px;
+      display       : flex;
+      align-items   : flex-end;
+      justify-content: space-between;
+      gap           : 40px;
+    }
+
+    .hero-left { max-width: 600px; }
+
+    .hero-eyebrow {
+      font-family    : var(--mono);
+      font-size      : 11px;
+      letter-spacing : 0.14em;
+      text-transform : uppercase;
+      color          : var(--accent);
+      margin-bottom  : 16px;
+      display        : flex;
+      align-items    : center;
+      gap            : 10px;
+    }
+
+    .hero-eyebrow::before {
+      content    : '';
+      display    : inline-block;
+      width      : 32px;
+      height     : 1.5px;
+      background : var(--accent);
+    }
+
+    .hero-title {
+      font-family    : var(--serif);
+      font-size      : clamp(38px, 6vw, 68px);
+      line-height    : 1.05;
+      letter-spacing : -1px;
+      color          : var(--ink);
+    }
+
+    .hero-title em {
+      font-style : italic;
+      color      : var(--accent);
+    }
+
+    .hero-sub {
+      margin-top  : 20px;
+      font-size   : 15px;
+      color       : var(--ink-3);
+      max-width   : 460px;
+      line-height : 1.7;
+    }
+
+    .hero-right {
+      display        : flex;
+      flex-direction : column;
+      gap            : 8px;
+      flex-shrink    : 0;
+    }
+
+    .badge-pill {
+      font-family    : var(--mono);
+      font-size      : 11px;
+      padding        : 6px 16px;
+      border-radius  : 99px;
+      border         : 1.5px solid var(--border);
+      color          : var(--ink-2);
+      white-space    : nowrap;
+    }
+
+    .badge-pill.filled {
+      background : var(--ink);
+      color      : var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* ===== WRAPPER ===== */
+    .page-body {
+      max-width : 1100px;
+      margin    : 0 auto;
+      padding   : 0 40px 80px;
+    }
+
+    /* ===== SECTION HEADER ===== */
+    .sec-header {
+      display         : flex;
+      align-items     : baseline;
+      gap             : 16px;
+      padding         : 56px 0 28px;
+      border-bottom   : 1.5px solid var(--ink);
+      margin-bottom   : 36px;
+    }
+
+    .sec-num {
+      font-family    : var(--mono);
+      font-size      : 11px;
+      color          : var(--accent);
+      letter-spacing : 0.1em;
+    }
+
+    .sec-title {
+      font-family    : var(--serif);
+      font-size      : 28px;
+      letter-spacing : -0.5px;
+    }
+
+    .sec-tag {
+      margin-left    : auto;
+      font-family    : var(--mono);
+      font-size      : 10px;
+      letter-spacing : 0.12em;
+      text-transform : uppercase;
+      color          : var(--paper);
+      background     : var(--ink);
+      padding        : 4px 10px;
+      border-radius  : 4px;
+    }
+
+    /* ===== CODE LABEL ===== */
+    .code-label {
+      font-family    : var(--mono);
+      font-size      : 11px;
+      letter-spacing : 0.08em;
+      text-transform : uppercase;
+      color          : var(--ink-3);
+      margin-bottom  : 10px;
+    }
+
+    .demo-wrap {
+      border        : 1px solid var(--border);
+      border-radius : 10px;
+      overflow      : hidden;
+      margin-bottom : 28px;
+    }
+
+    .demo-bar {
+      background  : var(--paper-2);
+      border-bottom: 1px solid var(--border);
+      padding     : 8px 16px;
+      display     : flex;
+      align-items : center;
+      gap         : 8px;
+    }
+
+    .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .demo-dot.r { background: #ff5f57; }
+    .demo-dot.y { background: #febc2e; }
+    .demo-dot.g { background: #28c840; }
+
+    .demo-title {
+      font-family : var(--mono);
+      font-size   : 11px;
+      color       : var(--ink-3);
+      margin-left : 6px;
+    }
+
+    .demo-inner { padding: 24px; background: var(--paper); }
+
+    .desc-box {
+      background    : var(--paper-2);
+      border-left   : 3px solid var(--accent);
+      padding       : 16px 20px;
+      border-radius : 0 8px 8px 0;
+      font-size     : 13.5px;
+      color         : var(--ink-2);
+      line-height   : 1.7;
+      margin-bottom : 32px;
+    }
+
+    .desc-box strong { color: var(--ink); }
+
+    /* ===== FLEXBOX DEMOS ===== */
+
+    /* 1 — Navbar Flexbox */
+    .demo-navbar {
+      display         : flex;
+      align-items     : center;
+      justify-content : space-between;
+      background      : var(--ink);
+      padding         : 12px 20px;
+      border-radius   : 8px;
+    }
+
+    .demo-navbar .brand {
+      font-family : var(--serif);
+      color       : var(--paper);
+      font-size   : 16px;
+    }
+
+    .demo-navbar .links {
+      display    : flex;
+      gap        : 4px;
+      list-style : none;
+    }
+
+    .demo-navbar .links a {
+      color          : rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size      : 12px;
+      font-weight    : 500;
+      padding        : 5px 10px;
+      border-radius  : 5px;
+      transition     : background 0.15s;
+    }
+
+    .demo-navbar .links a:hover { background: rgba(255,255,255,0.1); color: white; }
+
+    .demo-navbar .cta {
+      background  : var(--accent);
+      color       : white;
+      font-size   : 12px;
+      font-weight : 600;
+      padding     : 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    /* 2 — Card Row */
+    .flex-card-row {
+      display  : flex;
+      gap      : 12px;
+      flex-wrap: wrap;
+    }
+
+    .flex-card {
+      flex           : 1 1 160px;
+      background     : var(--paper-2);
+      border         : 1px solid var(--border);
+      border-radius  : 10px;
+      padding        : 20px 16px;
+      display        : flex;
+      flex-direction : column;
+      gap            : 8px;
+    }
+
+    .flex-card .icon {
+      width         : 36px;
+      height        : 36px;
+      border-radius : 8px;
+      display       : flex;
+      align-items   : center;
+      justify-content: center;
+      font-size     : 18px;
+    }
+
+    .flex-card .card-title {
+      font-size   : 14px;
+      font-weight : 600;
+      color       : var(--ink);
+    }
+
+    .flex-card .card-val {
+      font-family : var(--mono);
+      font-size   : 22px;
+      font-weight : 500;
+      color       : var(--ink);
+      margin-top  : auto;
+    }
+
+    /* 3 — Holy Grail */
+    .holy-grail {
+      display        : flex;
+      flex-direction : column;
+      gap            : 8px;
+    }
+
+    .hg-header, .hg-footer {
+      background    : var(--ink);
+      color         : var(--paper);
+      padding       : 10px 16px;
+      border-radius : 7px;
+      font-size     : 12px;
+      font-weight   : 500;
+      text-align    : center;
+      font-family   : var(--mono);
+    }
+
+    .hg-middle {
+      display : flex;
+      gap     : 8px;
+    }
+
+    .hg-sidebar {
+      width         : 120px;
+      flex-shrink   : 0;
+      background    : var(--paper-3);
+      border        : 1px solid var(--border);
+      border-radius : 7px;
+      padding       : 12px 10px;
+      font-size     : 11px;
+      font-family   : var(--mono);
+      color         : var(--ink-3);
+      text-align    : center;
+    }
+
+    .hg-main {
+      flex          : 1;
+      background    : var(--teal);
+      color         : white;
+      border-radius : 7px;
+      padding       : 20px 16px;
+      font-size     : 13px;
+      font-weight   : 500;
+      text-align    : center;
+      display       : flex;
+      align-items   : center;
+      justify-content: center;
+    }
+
+    /* ===== GRID DEMOS ===== */
+
+    /* 4 — Basic Grid */
+    .grid-basic {
+      display               : grid;
+      grid-template-columns : repeat(3, 1fr);
+      gap                   : 10px;
+    }
+
+    .grid-cell {
+      background    : var(--paper-2);
+      border        : 1px solid var(--border);
+      border-radius : 8px;
+      padding       : 16px;
+      text-align    : center;
+      font-family   : var(--mono);
+      font-size     : 12px;
+      color         : var(--ink-3);
+      min-height    : 64px;
+      display       : flex;
+      align-items   : center;
+      justify-content: center;
+    }
+
+    .grid-cell.highlight {
+      background : var(--ink);
+      color      : var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* 5 — Magazine Layout */
+    .grid-magazine {
+      display               : grid;
+      grid-template-columns : 2fr 1fr;
+      grid-template-rows    : auto auto;
+      gap                   : 10px;
+    }
+
+    .mag-hero {
+      grid-row      : 1 / 3;
+      background    : var(--ink);
+      border-radius : 10px;
+      padding       : 28px 24px;
+      display       : flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height    : 200px;
+      position      : relative;
+      overflow      : hidden;
+    }
+
+    .mag-hero::before {
+      content    : '01';
+      position   : absolute;
+      top        : 16px;
+      right      : 20px;
+      font-family: var(--serif);
+      font-size  : 80px;
+      color      : rgba(255,255,255,0.06);
+      line-height: 1;
+    }
+
+    .mag-hero h3 {
+      font-family    : var(--serif);
+      font-size      : 22px;
+      color          : var(--paper);
+      margin-bottom  : 6px;
+    }
+
+    .mag-hero p {
+      font-size : 12px;
+      color     : rgba(255,255,255,0.5);
+    }
+
+    .mag-side {
+      background    : var(--paper-2);
+      border        : 1px solid var(--border);
+      border-radius : 10px;
+      padding       : 16px;
+    }
+
+    .mag-side h4 {
+      font-family   : var(--serif);
+      font-size     : 15px;
+      margin-bottom : 6px;
+    }
+
+    .mag-side p {
+      font-size : 12px;
+      color     : var(--ink-3);
+    }
+
+    /* 6 — Dashboard Grid */
+    .grid-dashboard {
+      display               : grid;
+      grid-template-columns : repeat(4, 1fr);
+      grid-template-rows    : auto auto;
+      gap                   : 10px;
+    }
+
+    .dash-wide {
+      grid-column : 1 / 3;
+    }
+
+    .dash-full {
+      grid-column : 1 / -1;
+    }
+
+    .dash-card {
+      background    : var(--paper-2);
+      border        : 1px solid var(--border);
+      border-radius : 10px;
+      padding       : 16px 18px;
+    }
+
+    .dash-card .dash-label {
+      font-family    : var(--mono);
+      font-size      : 10px;
+      letter-spacing : 0.1em;
+      text-transform : uppercase;
+      color          : var(--ink-3);
+      margin-bottom  : 8px;
+    }
+
+    .dash-card .dash-val {
+      font-family : var(--serif);
+      font-size   : 28px;
+      color       : var(--ink);
+    }
+
+    .dash-card .dash-sub {
+      font-size  : 12px;
+      color      : var(--teal);
+      margin-top : 4px;
+      font-weight: 500;
+    }
+
+    .chart-bar-wrap {
+      display    : flex;
+      align-items: flex-end;
+      gap        : 6px;
+      height     : 60px;
+      margin-top : 8px;
+    }
+
+    .chart-bar {
+      flex          : 1;
+      background    : var(--ink);
+      border-radius : 4px 4px 0 0;
+      opacity       : 0.15;
+      transition    : opacity 0.2s;
+    }
+
+    .chart-bar:hover { opacity: 0.6; }
+    .chart-bar.active { opacity: 1; background: var(--accent); }
+
+    /* ===== RESPONSIVE SECTION ===== */
+    .responsive-demo {
+      border        : 1.5px dashed var(--border);
+      border-radius : 12px;
+      padding       : 24px;
+      background    : var(--paper-2);
+      text-align    : center;
+      margin-bottom : 20px;
+    }
+
+    .responsive-demo .rd-title {
+      font-family : var(--mono);
+      font-size   : 11px;
+      color       : var(--ink-3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .responsive-grid {
+      display               : grid;
+      grid-template-columns : repeat(4, 1fr);
+      gap                   : 8px;
+    }
+
+    .rg-cell {
+      background    : var(--ink);
+      color         : var(--paper);
+      border-radius : 7px;
+      padding       : 12px 8px;
+      font-family   : var(--mono);
+      font-size     : 11px;
+      text-align    : center;
+    }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      border-top  : 1px solid var(--border);
+      padding     : 24px 40px;
+      display     : flex;
+      align-items : center;
+      justify-content: space-between;
+      font-size   : 12px;
+      color       : var(--ink-3);
+      font-family : var(--mono);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 840px) {
+      .site-nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .mob-btn   { display: block; }
+
+      .hero {
+        flex-direction : column;
+        padding        : 48px 20px 40px;
+        align-items    : flex-start;
+      }
+      .hero-right {
+        flex-direction : row;
+        flex-wrap      : wrap;
+      }
+
+      .page-body { padding: 0 20px 60px; }
+
+      .grid-basic { grid-template-columns: repeat(2, 1fr); }
+      .grid-magazine { grid-template-columns: 1fr; }
+      .mag-hero { grid-row: auto; }
+      .grid-dashboard { grid-template-columns: repeat(2, 1fr); }
+      .dash-wide { grid-column: auto; }
+      .dash-full { grid-column: auto; }
+      .responsive-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .site-footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 32px; }
+      .flex-card-row { flex-direction: column; }
+      .hg-middle { flex-direction: column; }
+      .hg-sidebar { width: 100%; }
+      .grid-basic { grid-template-columns: 1fr; }
+      .grid-dashboard { grid-template-columns: 1fr; }
+      .responsive-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ===== ANIMATION ===== */
+    .demo-wrap, .desc-box {
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="site-nav">
+    <a href="#" class="nav-brand">layout<span>.</span>css</a>
+    <ul class="nav-links">
+      <li><a href="#flexbox">Flexbox</a></li>
+      <li><a href="#grid">Grid</a></li>
+      <li><a href="#responsive">Responsive</a></li>
+    </ul>
+    <button class="mob-btn" id="mobBtn">☰ Menu</button>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Pemrograman Website · Tugas 5</div>
+      <h1 class="hero-title">
+        Layout<br>
+        <em>Responsif</em><br>
+        dengan CSS
+      </h1>
+      <p class="hero-sub">
+        Demonstrasi penggunaan <strong>Flexbox</strong> dan <strong>CSS Grid</strong> untuk membangun
+        layout halaman yang modern, terstruktur, dan responsif di berbagai ukuran layar.
+      </p>
+    </div>
+    <div class="hero-right">
+      <span class="badge-pill filled">Flexbox</span>
+      <span class="badge-pill filled">CSS Grid</span>
+      <span class="badge-pill">Responsive</span>
+      <span class="badge-pill">Media Queries</span>
+    </div>
+  </header>
+
+  <div class="page-body">
+
+    <!-- ===== FLEXBOX ===== -->
+    <section id="flexbox">
+      <div class="sec-header">
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">Flexbox Layout</h2>
+        <span class="sec-tag">display: flex</span>
+      </div>
+
+      <!-- Demo 1: Navbar -->
+      <p class="code-label">Demo 1 — Navbar Horizontal</p>
+      <div class="demo-wrap">
+        <div class="demo-bar">
+          <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+          <span class="demo-title">navbar-flexbox.html</span>
+        </div>
+        <div class="demo-inner">
+          <nav class="demo-navbar">
+            <span class="brand">Brand.</span>
+            <ul class="links">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Work</a></li>
+            </ul>
+            <a href="#" class="cta">Contact</a>
+          </nav>
+        </div>
+      </div>
+      <div class="desc-box">
+        <strong>Konsep:</strong> Navbar menggunakan <code>display: flex</code> dengan <code>justify-content: space-between</code>
+        untuk mendistribusikan tiga elemen (logo, menu, tombol) secara merata di sepanjang sumbu horizontal.
+        <code>align-items: center</code> memastikan semua elemen sejajar secara vertikal di tengah.
+        Menu navigasi di dalamnya juga menggunakan Flexbox dengan <code>gap</code> untuk jarak antar item.
+      </div>
+
+      <!-- Demo 2: Card Row -->
+      <p class="code-label">Demo 2 — Kartu Statistik (Flex Wrap)</p>
+      <div class="demo-wrap">
+        <div class="demo-bar">
+          <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+          <span class="demo-title">flex-cards.html</span>
+        </div>
+        <div class="demo-inner">
+          <div class="flex-card-row">
+            <div class="flex-card">
+              <div class="icon" style="background:#fef3c7">📄</div>
+              <div class="card-title">Total Proyek</div>
+              <div class="card-val">24</div>
+            </div>
+            <div class="flex-card">
+              <div class="icon" style="background:#dcfce7">✅</div>
+              <div class="card-title">Selesai</div>
+              <div class="card-val">18</div>
+            </div>
+            <div class="flex-card">
+              <div class="icon" style="background:#dbeafe">⏳</div>
+              <div class="card-title">Berjalan</div>
+              <div class="card-val">4</div>
+            </div>
+            <div class="flex-card">
+              <div class="icon" style="background:#fce7f3">🔴</div>
+              <div class="card-title">Terlambat</div>
+              <div class="card-val">2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="desc-box">
+        <strong>Konsep:</strong> Baris kartu statistik menggunakan <code>flex: 1 1 160px</code> pada setiap kartu —
+        artinya kartu dapat tumbuh (<em>grow</em>), menyusut (<em>shrink</em>), dan memiliki lebar dasar 160px.
+        Dengan <code>flex-wrap: wrap</code>, kartu akan otomatis turun ke baris baru jika ruang tidak cukup,
+        sehingga layout menyesuaikan diri di layar kecil tanpa media query tambahan.
+      </div>
+
+      <!-- Demo 3: Holy Grail -->
+      <p class="code-label">Demo 3 — Holy Grail Layout (Header + Sidebar + Main + Footer)</p>
+      <div class="demo-wrap">
+        <div class="demo-bar">
+          <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+          <span class="demo-title">holy-grail.html</span>
+        </div>
+        <div class="demo-inner">
+          <div class="holy-grail">
+            <div class="hg-header">header</div>
+            <div class="hg-middle">
+              <div class="hg-sidebar">sidebar<br>kiri</div>
+              <div class="hg-main">main content (flex: 1)</div>
+              <div class="hg-sidebar">sidebar<br>kanan</div>
+            </div>
+            <div class="hg-footer">footer</div>
+          </div>
+        </div>
+      </div>
+      <div class="desc-box">
+        <strong>Konsep:</strong> "Holy Grail Layout" adalah pola klasik tiga kolom dengan header dan footer.
+        Diimplementasikan menggunakan Flexbox bersarang: kontainer luar menggunakan <code>flex-direction: column</code>
+        untuk menyusun header, konten tengah, dan footer secara vertikal. Di dalam konten tengah,
+        <code>flex-direction: row</code> (default) menyusun dua sidebar dan konten utama secara horizontal.
+        Konten utama diberi <code>flex: 1</code> agar mengisi sisa ruang yang tersedia.
+      </div>
+    </section>
+
+    <!-- ===== GRID ===== -->
+    <section id="grid">
+      <div class="sec-header">
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">CSS Grid Layout</h2>
+        <span class="sec-tag">display: grid</span>
+      </div>
+
+      <!-- Demo 4: Basic Grid -->
+      <p class="code-label">Demo 4 — Grid 3 Kolom Dasar</p>
+      <div class="demo-wrap">
+        <div class="demo-bar">
+          <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+          <span class="demo-title">basic-grid.html</span>
+        </div>
+        <div class="demo-inner">
+          <div class="grid-basic">
+            <div class="grid-cell highlight">grid-item 1</div>
+            <div class="grid-cell">grid-item 2</div>
+            <div class="grid-cell">grid-item 3</div>
+            <div class="grid-cell">grid-item 4</div>
+            <div class="grid-cell highlight">grid-item 5</div>
+            <div class="grid-cell">grid-item 6</div>
+          </div>
+        </div>
+      </div>
+      <div class="desc-box">
+        <strong>Konsep:</strong> Grid tiga kolom dibuat dengan <code>grid-template-columns: repeat(3, 1fr)</code>
+        — sintaks <code>repeat(3, 1fr)</code> membuat tiga kolom dengan lebar yang sama, masing-masing mengambil
+        satu bagian dari ruang yang tersedia (<em>fractional unit</em>). Item akan mengisi sel secara otomatis
+        dari kiri ke kanan, atas ke bawah, tanpa perlu menentukan posisi secara manual.
+      </div>
+
+      <!-- Demo 5: Magazine -->
+      <p class="code-label">Demo 5 — Magazine Layout (Grid Area)</p>
+      <div class="demo-wrap">
+        <div class="demo-bar">
+          <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+          <span class="demo-title">magazine-grid.html</span>
+        </div>
+        <div class="demo-inner">
+          <div class="grid-magazine">
+            <div class="mag-hero">
+              <h3>Artikel Utama</h3>
+              <p>grid-row: 1 / 3 — membentang dua baris</p>
+            </div>
+            <div class="mag-side">
+              <h4>Berita Kedua</h4>
+              <p>grid item normal — satu sel</p>
+            </div>
+            <div class="mag-side">
+              <h4>Berita Ketiga</h4>
+              <p>grid item normal — satu sel</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="desc-box">
+        <strong>Konsep:</strong> Layout majalah dibuat dengan grid dua kolom (<code>2fr 1fr</code>).
+        Artikel utama diberi <code>grid-row: 1 / 3</code> agar membentang sepanjang dua baris,
+        menciptakan hirarki visual yang jelas. Dua artikel sampingan mengisi sel-sel di kolom kanan
+        secara normal. Teknik ini menunjukkan kekuatan Grid dalam mengatur tata letak dua dimensi
+        (baris dan kolom secara bersamaan).
+      </div>
+
+      <!-- Demo 6: Dashboard -->
+      <p class="code-label">Demo 6 — Dashboard Grid (Mixed Column Span)</p>
+      <div class="demo-wrap">
+        <div class="demo-bar">
+          <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+          <span class="demo-title">dashboard-grid.html</span>
+        </div>
+        <div class="demo-inner">
+          <div class="grid-dashboard">
+            <div class="dash-card">
+              <div class="dash-label">Pengunjung</div>
+              <div class="dash-val">12,480</div>
+              <div class="dash-sub">↑ +8.2% bulan ini</div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-label">Pendapatan</div>
+              <div class="dash-val">Rp 4.2M</div>
+              <div class="dash-sub">↑ +12% bulan ini</div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-label">Konversi</div>
+              <div class="dash-val">3.6%</div>
+              <div class="dash-sub">↓ -0.4% bulan ini</div>
+            </div>
+            <div class="dash-card">
+              <div class="dash-label">Bounce Rate</div>
+              <div class="dash-val">41%</div>
+              <div class="dash-sub">↑ Baik</div>
+            </div>
+            <div class="dash-card dash-wide">
+              <div class="dash-label">Tren Mingguan</div>
+              <div class="chart-bar-wrap">
+                <div class="chart-bar" style="height:40%"></div>
+                <div class="chart-bar" style="height:60%"></div>
+                <div class="chart-bar" style="height:45%"></div>
+                <div class="chart-bar" style="height:80%"></div>
+                <div class="chart-bar active" style="height:100%"></div>
+                <div class="chart-bar" style="height:70%"></div>
+                <div class="chart-bar" style="height:55%"></div>
+              </div>
+            </div>
+            <div class="dash-card dash-wide">
+              <div class="dash-label">Status Server</div>
+              <div class="dash-val" style="font-size:16px;color:var(--teal)">● Semua sistem berjalan normal</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="desc-box">
+        <strong>Konsep:</strong> Dashboard menggunakan grid empat kolom dengan beberapa item yang membentang
+        lebih dari satu kolom. <code>grid-column: 1 / 3</code> membuat item mengisi dua kolom pertama,
+        dan <code>grid-column: 1 / -1</code> membuat item membentang penuh dari kolom pertama hingga terakhir.
+        Pendekatan ini memungkinkan pembuatan layout dashboard yang kompleks dan asimetris dengan kode yang ringkas.
+      </div>
+    </section>
+
+    <!-- ===== RESPONSIVE ===== -->
+    <section id="responsive">
+      <div class="sec-header">
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">Responsive Design</h2>
+        <span class="sec-tag">@media queries</span>
+      </div>
+
+      <p class="code-label">Demo 7 — Grid Responsif Tanpa Media Query (auto-fill)</p>
+      <div class="demo-wrap">
+        <div class="demo-bar">
+          <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+          <span class="demo-title">responsive-grid.html</span>
+        </div>
+        <div class="demo-inner">
+          <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap:10px;">
+            <div class="grid-cell">Item A</div>
+            <div class="grid-cell highlight">Item B</div>
+            <div class="grid-cell">Item C</div>
+            <div class="grid-cell">Item D</div>
+            <div class="grid-cell highlight">Item E</div>
+            <div class="grid-cell">Item F</div>
+          </div>
+        </div>
+      </div>
+      <div class="desc-box">
+        <strong>Konsep:</strong> Menggunakan <code>repeat(auto-fill, minmax(120px, 1fr))</code> — browser
+        akan secara otomatis menentukan jumlah kolom berdasarkan ruang yang tersedia, dengan lebar
+        minimum 120px per kolom. Di layar lebar muat 6 kolom; di layar kecil otomatis menjadi 2 atau 1 kolom.
+        Ini adalah teknik responsif murni tanpa satu pun <code>@media</code> query.
+      </div>
+
+      <p class="code-label">Demo 8 — Breakpoint dengan Media Query</p>
+      <div class="demo-wrap">
+        <div class="demo-bar">
+          <span class="demo-dot r"></span><span class="demo-dot y"></span><span class="demo-dot g"></span>
+          <span class="demo-title">media-query.html</span>
+        </div>
+        <div class="demo-inner">
+          <div class="responsive-grid">
+            <div class="rg-cell">Col 1<br><small style="opacity:0.5">≥840px: 4 col</small></div>
+            <div class="rg-cell">Col 2<br><small style="opacity:0.5">≤840px: 2 col</small></div>
+            <div class="rg-cell">Col 3<br><small style="opacity:0.5">≤480px: 1 col</small></div>
+            <div class="rg-cell">Col 4<br><small style="opacity:0.5">coba resize!</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="desc-box">
+        <strong>Konsep:</strong> Layout yang secara eksplisit mendefinisikan tiga breakpoint melalui
+        <code>@media</code> query: empat kolom untuk desktop (≥840px), dua kolom untuk tablet (≤840px),
+        dan satu kolom untuk smartphone (≤480px). Coba ubah ukuran jendela browser untuk melihat
+        perubahan layout secara langsung. Pendekatan ini memberikan kontrol penuh atas tampilan
+        di setiap ukuran layar.
+      </div>
+    </section>
+
+  </div><!-- /page-body -->
+
+  <footer class="site-footer">
+    <span>Rizqy Fadhil Athallah · 187241097</span>
+    <span>Pemrograman Website Teori I2 · Tugas 5</span>
+  </footer>
+
+  <script>
+    const mobBtn = document.getElementById('mobBtn');
+    const navLinks = document.querySelector('.nav-links');
+    mobBtn.addEventListener('click', () => {
+      const open = navLinks.style.display === 'flex';
+      navLinks.style.display = open ? 'none' : 'flex';
+      if (!open) {
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '56px';
+        navLinks.style.left = '0'; navLinks.style.right = '0';
+        navLinks.style.background = 'var(--paper)';
+        navLinks.style.padding = '10px 20px 16px';
+        navLinks.style.borderBottom = '1px solid var(--border)';
+        navLinks.style.zIndex = '99';
+      }
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        if (window.innerWidth <= 840) navLinks.style.display = 'none';
+      });
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 840) navLinks.style.cssText = '';
+    });
+  </script>
+</body>
+</html>

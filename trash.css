@@ -1,0 +1,28 @@
+@media (max-width: 840px) {
+    .page-wrap {
+        grid-template-columns: 1fr;
+        padding-top: 76px;
+    }
+    .sidebar {
+        position: static;
+    }
+    .nav-links {
+        display: none;
+    }
+    .mob-menu-btn {
+        display: flex;
+    }
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+ 
+@media (max-width: 480px) {
+    .page-wrap {
+        padding-left  : 16px;
+        padding-right : 16px;
+    }
+    .profile-name {
+        font-size: 22px;
+    }
+}
