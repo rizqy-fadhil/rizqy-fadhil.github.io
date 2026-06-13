@@ -683,7 +683,104 @@ header {
     }
 
 
-    /* ===== 13. BLOG SECTION ===== */
+    /* ===== 13. CERTIFICATIONS SECTION ===== */
+    .cert-list {
+    display        : flex;
+    flex-direction : column;
+    gap            : 1px;
+    }
+
+    .cert-item {
+    display               : grid;
+    grid-template-columns : 44px 1fr auto;
+    gap                   : 14px;
+    align-items           : center;
+    padding               : 18px 0;
+    border-bottom         : 1px solid var(--border);
+    }
+
+    .cert-item:last-child {
+    border-bottom: none;
+    }
+
+    .cert-logo {
+    width         : 44px;
+    height        : 44px;
+    border-radius : 10px;
+    background    : var(--tag-bg);
+    border        : 1px solid rgba(124, 106, 245, 0.2);
+    display       : flex;
+    align-items   : center;
+    justify-content: center;
+    color         : var(--accent-2);
+    flex-shrink   : 0;
+    }
+
+    .cert-logo-img {
+    width         : 44px;
+    height        : 44px;
+    border-radius : 10px;
+    background    : var(--tag-bg);
+    border        : 1px solid rgba(124, 106, 245, 0.2);
+    display       : flex;
+    align-items   : center;
+    justify-content: center;
+    color         : var(--accent-2);
+    flex-shrink   : 0;
+    }
+
+    .cert-name {
+    font-size     : 14px;
+    font-weight   : 600;
+    color         : var(--text-1);
+    margin-bottom : 2px;
+    }
+
+    .cert-issuer {
+    font-size     : 13px;
+    color         : var(--accent-2);
+    margin-bottom : 6px;
+    }
+
+    .cert-meta {
+    display     : flex;
+    gap         : 6px;
+    flex-wrap   : wrap;
+    margin-bottom: 4px;
+    }
+
+    .cert-id {
+    font-family : 'DM Mono', monospace;
+    font-size   : 11px;
+    color       : var(--text-3);
+    margin-top  : 2px;
+    }
+
+    .btn-credential {
+    display       : inline-flex;
+    align-items   : center;
+    gap           : 6px;
+    font-size     : 12px;
+    font-weight   : 500;
+    padding       : 6px 12px;
+    border-radius : 20px;
+    border        : 1px solid var(--border-hv);
+    color         : var(--text-2);
+    background    : var(--bg-3);
+    transition    : all 0.2s;
+    white-space   : nowrap;
+    flex-shrink   : 0;
+    }
+
+    .btn-credential:hover {
+    color        : var(--text-1);
+    border-color : var(--accent-2);
+    background   : var(--tag-bg);
+    transform    : translateY(-1px);
+    }
+
+
+    /* ===== 14. BLOG SECTION ===== */
     .blog-list {
     display        : flex;
     flex-direction : column;
@@ -788,6 +885,16 @@ header {
 
     .project-card--wide {
         grid-column: auto;
+    }
+
+    .cert-item {
+        grid-template-columns : 44px 1fr;
+    }
+
+    .btn-credential {
+        grid-column : 1 / -1;
+        justify-self: start;
+        margin-top  : 4px;
     }
     }
 
