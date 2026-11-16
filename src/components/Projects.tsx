@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Award, Star } from "lucide-react";
 import { FaGithub } from "react-icons/fa6";
@@ -9,7 +8,7 @@ import { isPlaceholder, projectCategories, projects, type Project } from "@/data
 
 type Filter = (typeof projectCategories)[number];
 
-// Deterministic gradient per project for cards without an image.
+// Deterministic gradient header per project (no screenshots, for a consistent grid).
 const gradients = [
   "from-cyan-500/30 via-sky-500/10 to-transparent",
   "from-violet-500/30 via-fuchsia-500/10 to-transparent",
@@ -19,17 +18,6 @@ const gradients = [
 ];
 
 function ProjectVisual({ project, index }: { project: Project; index: number }) {
-  if (project.image) {
-    return (
-      <Image
-        src={project.image}
-        alt={`Screenshot of ${project.title}`}
-        fill
-        sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
-        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-      />
-    );
-  }
   const initials = project.title
     .split(/[\s/&]+/)
     .filter(Boolean)
@@ -37,7 +25,9 @@ function ProjectVisual({ project, index }: { project: Project; index: number }) 
     .map((w) => w[0])
     .join("");
   return (
-    <div className={`bg-grid absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]}`} aria-hidden="true">
+    <div className={`absolute inset-0 bg-gradient-to-br ${gradients[index % gradients.length]}`} aria-hidden="true">
+      {/* Grid lives on its own layer so it doesn't override the gradient's background-image. */}
+      <div className="bg-grid absolute inset-0" />
       <span className="absolute bottom-3 right-4 font-mono text-5xl font-semibold text-fg/10">{initials}</span>
     </div>
   );

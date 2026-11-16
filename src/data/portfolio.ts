@@ -18,7 +18,7 @@ export const profile = {
   tagline:
     "I take machine learning models from notebook experiments all the way to products people actually use.",
   location: "Surabaya, Indonesia",
-  photo: "/images/profile.jpeg",
+  photo: "/images/profile-square.jpg", // square crop of profile.jpeg, face centered
   cv: "/cv.pdf", // TODO: replace public/cv.pdf placeholder with the real CV
   email: "fadhil2005new@gmail.com",
   githubUsername: "rizqy-fadhil",
@@ -168,8 +168,6 @@ export type Project = {
   description: string;
   categories: ProjectCategory[];
   stack: string[];
-  /** Path under /public. Leave undefined to render a gradient placeholder. */
-  image?: string;
   featured?: boolean;
   status?: "In Progress";
   /** Short achievement / result badge. Only real, verified numbers. */
@@ -245,7 +243,6 @@ export const projects: Project[] = [
       "A digital waste bank for Bank Sampah Induk Surabaya that rewards residents with GreenCoin points.",
     categories: ["Web", "Mobile"],
     stack: ["Next.js", "Tailwind CSS", "Supabase"],
-    image: "/images/projects/ecopoin.webp",
     links: [
       { label: "Demo", href: "https://ecopoin-web.vercel.app", kind: "demo" },
       { label: "Code", href: "https://github.com/rizqy-fadhil/ecopoin-web", kind: "code" },
@@ -256,7 +253,6 @@ export const projects: Project[] = [
     description: "Daily health tracking for water intake, sleep, and body weight.",
     categories: ["Mobile", "Web"],
     stack: ["Flutter", "Laravel", "TiDB", "Vercel"],
-    image: "/images/projects/healthsync.webp",
     links: [
       { label: "Demo", href: "https://healthsync-frontend-phi.vercel.app", kind: "demo" },
       { label: "Code", href: "https://github.com/rizqy-fadhil/HealthSync", kind: "code" },
